@@ -763,8 +763,8 @@ namespace EfCoreUi
             string buildConfiguration = MemoryParameter.BuildConfigSelectedItem;
             string outputDir = MemoryParameter.MigrationSelectedRootPaths.Value;
 
-            string buildMode = this.checkBox1.Checked ? "--no-build" : "";
-            string targetFramework = string.IsNullOrEmpty(comboBoxTargetFramework.Text) || comboBoxTargetFramework.Text == "<Default>" ? "" : $"--framework {comboBoxTargetFramework.Text}";
+            string buildMode = this.checkBox1.Checked ? " --no-build" : "";
+            string targetFramework = string.IsNullOrEmpty(comboBoxTargetFramework.Text) || comboBoxTargetFramework.Text == "<Default>" ? "" : $" --framework {comboBoxTargetFramework.Text}";
 
             string additionalArgument = textBoxAdditionalArg.Text;
 
@@ -803,14 +803,14 @@ namespace EfCoreUi
                 var from = comboBoxFromMigration.Text;
                 var to = comboBoxToMigration.Text;
                 var outputsql = textBoxScript.Text;
-                var idempotent = checkBoxIdempotent.Checked ? "--idempotent" : "";
-                var no_transactions = checkBoxTransactions.Checked ? "--no-transactions" : "";
+                var idempotent = checkBoxIdempotent.Checked ? " --idempotent" : "";
+                var no_transactions = checkBoxTransactions.Checked ? " --no-transactions" : "";
                 command = new StringBuilder($"ef {operation}")
                    .Append($" --project \"{migrationProjectPath}\"")
                    .Append(this.creation_method.SelectedItem == MemoryParameter.CMStartupProject ? $" --startup-project \"{startupProjectPath}\"" : "")
                    .Append($" --context {dbContextPath}")
                    .Append($" --configuration {buildConfiguration} {buildMode} {targetFramework} {from} {to}")
-                   .Append($"--output \"{outputsql}\" {idempotent} {no_transactions}")
+                   .Append($" --output \"{outputsql}\" {idempotent} {no_transactions}")
                    .Append($" {additionalArgument}")
                    .ToString();
             }
@@ -818,7 +818,7 @@ namespace EfCoreUi
             {
                 operation = "database update";
                 var toMigration = comboBoxToMigration.Text;
-                var concectionString = !checkBoxUseDefaultConnection.Checked && !string.IsNullOrEmpty(comboBoxFromMigration.Text) ? "--connection " + '"' + comboBoxFromMigration.Text.Split(char.Parse("|"))[1] + '"' : "";
+                var concectionString = !checkBoxUseDefaultConnection.Checked && !string.IsNullOrEmpty(comboBoxFromMigration.Text) ? " --connection " + '"' + comboBoxFromMigration.Text.Split(char.Parse("|"))[1] + '"' : "";
                 command = new StringBuilder($"ef {operation}")
                  .Append($" --project \"{migrationProjectPath}\"")
                  .Append(this.creation_method.SelectedItem == MemoryParameter.CMStartupProject ? $" --startup-project \"{startupProjectPath}\"" : "")
