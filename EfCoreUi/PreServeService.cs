@@ -51,6 +51,8 @@ namespace EfCoreUi
 
             foreach (CodeClass codeClass in GetClassesInProject(project))
             {
+                if (dbContextClassNames.ContainsKey(codeClass.Name)) continue;
+
                 if (IsDbContextSubclass(codeClass))
                 {
                     dbContextClassNames.Add(codeClass.Name, new KeyValuePair<string, string>(codeClass.FullName, project.Name));
